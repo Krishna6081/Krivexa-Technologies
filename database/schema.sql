@@ -2,13 +2,27 @@
 
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
+    name VARCHAR(255),
+    first_name VARCHAR(255),
+    last_name VARCHAR(255),
     email VARCHAR(255) UNIQUE NOT NULL,
+    phone VARCHAR(50),
+    company VARCHAR(255),
     password_hash VARCHAR(255) NOT NULL,
-    role VARCHAR(50) DEFAULT 'ADMIN',
+    role VARCHAR(50) DEFAULT 'USER',
+    avatar VARCHAR(500),
+    is_verified BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
+
+-- Safely add missing columns to users table if it already existed
+ALTER TABLE users ADD COLUMN IF NOT EXISTS first_name VARCHAR(255);
+ALTER TABLE users ADD COLUMN IF NOT EXISTS last_name VARCHAR(255);
+ALTER TABLE users ADD COLUMN IF NOT EXISTS phone VARCHAR(50);
+ALTER TABLE users ADD COLUMN IF NOT EXISTS company VARCHAR(255);
+ALTER TABLE users ADD COLUMN IF NOT EXISTS avatar VARCHAR(500);
+ALTER TABLE users ADD COLUMN IF NOT EXISTS is_verified BOOLEAN DEFAULT FALSE;
 
 CREATE TABLE IF NOT EXISTS services (
     id SERIAL PRIMARY KEY,
@@ -103,6 +117,7 @@ CREATE TABLE IF NOT EXISTS applications (
 
 CREATE TABLE IF NOT EXISTS inquiries (
     id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id) ON DELETE SET NULL,
     full_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     phone VARCHAR(50),
@@ -112,6 +127,9 @@ CREATE TABLE IF NOT EXISTS inquiries (
     message TEXT NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
+
+-- Safely add user_id column to inquiries if table already existed
+ALTER TABLE inquiries ADD COLUMN IF NOT EXISTS user_id INTEGER REFERENCES users(id) ON DELETE SET NULL;
 
 CREATE TABLE IF NOT EXISTS newsletter_subscribers (
     id SERIAL PRIMARY KEY,
@@ -123,3 +141,4 @@ CREATE TABLE IF NOT EXISTS newsletter_subscribers (
 CREATE INDEX IF NOT EXISTS idx_services_slug ON services(slug);
 CREATE INDEX IF NOT EXISTS idx_projects_slug ON projects(slug);
 CREATE INDEX IF NOT EXISTS idx_blog_slug ON blog_posts(slug);
+CREATE INDEX IF NOT EXISTS idx_inquiries_user ON inquiries(user_id);
