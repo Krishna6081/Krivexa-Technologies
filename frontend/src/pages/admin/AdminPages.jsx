@@ -5,6 +5,8 @@ import { Card, CardBody } from '../../components/ui/Card';
 import { Input } from '../../components/ui/Input';
 import { Button } from '../../components/ui/Button';
 import { Badge } from '../../components/ui/Badge';
+import { Navbar } from '../../components/layout/Navbar';
+import { Footer } from '../../components/layout/Footer';
 import {
   SERVICES_DATA,
   PROJECTS_DATA,
@@ -33,12 +35,13 @@ import {
   AlertTriangle,
   ArrowLeft,
   CheckCircle2,
-  Clock
+  Clock,
+  ShieldCheck
 } from 'lucide-react';
 
 export { AdminDashboardPage } from './AdminDashboardPage';
 
-// --- ADMIN LOGIN ---
+// --- ADMIN LOGIN WITH PUBLIC HEADER & FOOTER ---
 export const AdminLoginPage = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -61,50 +64,65 @@ export const AdminLoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[var(--bg-primary)] px-4">
-      <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-600 to-violet-600 text-white font-extrabold text-2xl flex items-center justify-center mx-auto mb-3 shadow-lg shadow-blue-500/20">
-            K
-          </div>
-          <h1 className="text-2xl font-extrabold text-[var(--text-primary)]">Krivexa Admin Console</h1>
-          <p className="text-xs text-[var(--text-muted)] mt-1">Authorized personnel login</p>
-        </div>
+    <div className="min-h-screen flex flex-col justify-between bg-[var(--bg-primary)]">
+      {/* Public Sticky Header */}
+      <Navbar />
 
-        <Card>
-          <CardBody className="p-8">
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-              {error && (
-                <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-xs font-semibold text-rose-500 text-center">
-                  {error}
-                </div>
-              )}
-              <Input
-                label="Email"
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                leftIcon={<Mail className="w-4 h-4" />}
-              />
-              <Input
-                label="Password"
-                type="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                leftIcon={<Lock className="w-4 h-4" />}
-              />
-              <Button type="submit" variant="primary" size="lg" isLoading={loading} className="mt-2">
-                Sign In to Admin Console
-              </Button>
-            </form>
-            <div className="mt-4 text-[11px] text-[var(--text-muted)] text-center">
-              Demo Credentials: <span className="font-mono text-[var(--text-primary)]">admin@krivexa.com</span> / <span className="font-mono text-[var(--text-primary)]">admin123</span>
+      {/* Main Login Body */}
+      <main className="flex-1 flex items-center justify-center px-4 pt-36 pb-20">
+        <div className="w-full max-w-md">
+          <div className="text-center mb-8">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-violet-600 text-white font-extrabold text-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-blue-500/25">
+              K
             </div>
-          </CardBody>
-        </Card>
-      </div>
+            <h1 className="text-3xl font-extrabold text-[var(--text-primary)] tracking-tight">Krivexa Admin Console</h1>
+            <p className="text-xs text-[var(--text-muted)] mt-1 font-semibold">Authorized personnel & engineering administrators only</p>
+          </div>
+
+          <Card>
+            <CardBody className="p-8">
+              <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                {error && (
+                  <div className="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/20 text-xs font-bold text-rose-500 text-center">
+                    {error}
+                  </div>
+                )}
+                <Input
+                  label="Admin Email"
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  leftIcon={<Mail className="w-4 h-4" />}
+                />
+                <Input
+                  label="Password"
+                  type="password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  leftIcon={<Lock className="w-4 h-4" />}
+                />
+                <Button type="submit" variant="primary" size="lg" isLoading={loading} className="mt-2">
+                  Sign In to Admin Console
+                </Button>
+              </form>
+              <div className="mt-6 text-center text-xs text-[var(--text-secondary)] font-medium">
+                Standard client user?{' '}
+                <Link to="/login" className="text-blue-600 font-extrabold hover:underline">
+                  User Sign In
+                </Link>
+              </div>
+              <div className="mt-4 pt-4 border-t border-[var(--border-subtle)] text-[11px] text-[var(--text-muted)] text-center font-mono">
+                Demo Credentials: <span className="font-bold text-[var(--text-primary)]">admin@krivexa.com</span> / <span className="font-bold text-[var(--text-primary)]">admin123</span>
+              </div>
+            </CardBody>
+          </Card>
+        </div>
+      </main>
+
+      {/* Public 5-Column Footer */}
+      <Footer />
     </div>
   );
 };
