@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { MainLayout } from './layouts/MainLayout';
+import { AdminLayout } from './layouts/AdminLayout';
 import { HomePage } from './pages/HomePage';
 import { AboutPage } from './pages/AboutPage';
 import { ServicesPage, ServiceDetailPage } from './pages/ServicesPage';
@@ -24,6 +25,7 @@ import { UserInquiriesPage } from './pages/UserInquiriesPage';
 import {
   AdminLoginPage,
   AdminDashboardPage,
+  AdminUsersPage,
   AdminServicesPage,
   AdminProjectsPage,
   AdminCaseStudiesPage,
@@ -33,7 +35,9 @@ import {
   AdminCareersPage,
   AdminApplicationsPage,
   AdminInquiriesPage,
-  AdminSettingsPage
+  AdminNewsletterPage,
+  AdminSettingsPage,
+  AdminNotFoundPage
 } from './pages/admin/AdminPages';
 import { useAuth } from './context/AuthContext';
 import { ScrollToTop } from './components/common/ScrollToTop';
@@ -128,16 +132,32 @@ export const AppRoutes = () => {
           <Route path="*" element={<NotFoundPage />} />
         </Route>
 
-        {/* Admin Portal Auth & Dashboard Routes */}
+        {/* Admin Portal Auth & Nested Dashboard Routes */}
         <Route path="/admin/login" element={<AdminLoginPage />} />
         <Route
-          path="/admin/*"
+          path="/admin"
           element={
             <ProtectedAdminRoute>
-              <AdminDashboardPage />
+              <AdminLayout />
             </ProtectedAdminRoute>
           }
-        />
+        >
+          <Route index element={<Navigate to="/admin/dashboard" replace />} />
+          <Route path="dashboard" element={<AdminDashboardPage />} />
+          <Route path="users" element={<AdminUsersPage />} />
+          <Route path="services" element={<AdminServicesPage />} />
+          <Route path="projects" element={<AdminProjectsPage />} />
+          <Route path="case-studies" element={<AdminCaseStudiesPage />} />
+          <Route path="testimonials" element={<AdminTestimonialsPage />} />
+          <Route path="team" element={<AdminTeamPage />} />
+          <Route path="blog" element={<AdminBlogPage />} />
+          <Route path="careers" element={<AdminCareersPage />} />
+          <Route path="applications" element={<AdminApplicationsPage />} />
+          <Route path="inquiries" element={<AdminInquiriesPage />} />
+          <Route path="newsletter" element={<AdminNewsletterPage />} />
+          <Route path="settings" element={<AdminSettingsPage />} />
+          <Route path="*" element={<AdminNotFoundPage />} />
+        </Route>
       </Routes>
     </>
   );
