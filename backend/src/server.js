@@ -8,6 +8,8 @@ import dotenv from 'dotenv';
 import { errorHandler } from './middleware/errorHandler.js';
 import { authenticateJWT } from './middleware/auth.js';
 
+import dashboardRoutes from './routes/dashboardRoutes.js';
+
 dotenv.config();
 
 const app = express();
@@ -61,6 +63,8 @@ app.get('/api/auth/me', authenticateJWT, (req, res) => {
 app.post('/api/auth/logout', (req, res) => {
   res.json({ success: true, message: 'Logged out successfully' });
 });
+
+app.use('/api/admin', dashboardRoutes);
 
 // --- INQUIRIES ROUTE ---
 app.post('/api/inquiries', (req, res) => {

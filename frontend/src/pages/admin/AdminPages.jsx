@@ -5,8 +5,10 @@ import { Card, CardBody } from '../../components/ui/Card';
 import { Input } from '../../components/ui/Input';
 import { Button } from '../../components/ui/Button';
 import { Badge } from '../../components/ui/Badge';
-import { SERVICES_DATA, PROJECTS_DATA, CASE_STUDIES_DATA, BLOG_POSTS_DATA, CAREERS_DATA } from '../../data/mockData';
-import { Lock, Mail, LayoutDashboard, Code, Briefcase, FileText, UserCheck, MessageSquareQuote, Trash2, Edit3, Plus, Search } from 'lucide-react';
+import { SERVICES_DATA, PROJECTS_DATA } from '../../data/mockData';
+import { Lock, Mail, Edit3, Trash2, Plus } from 'lucide-react';
+
+export { AdminDashboardPage } from './AdminDashboardPage';
 
 export const AdminLoginPage = () => {
   const { login } = useAuth();
@@ -33,11 +35,11 @@ export const AdminLoginPage = () => {
     <div className="min-h-screen flex items-center justify-center bg-[var(--bg-primary)] px-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="w-12 h-12 rounded-2xl bg-sky-500 text-white font-extrabold text-2xl flex items-center justify-center mx-auto mb-3 shadow-lg shadow-sky-500/20">
+          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-600 to-violet-600 text-white font-extrabold text-2xl flex items-center justify-center mx-auto mb-3 shadow-lg shadow-blue-500/20">
             K
           </div>
-          <h1 className="text-2xl font-bold text-[var(--text-primary)]">Krivexa Portal Login</h1>
-          <p className="text-xs text-[var(--text-muted)] mt-1">Authorized personnel only</p>
+          <h1 className="text-2xl font-extrabold text-[var(--text-primary)]">Krivexa Admin Console</h1>
+          <p className="text-xs text-[var(--text-muted)] mt-1">Authorized personnel login</p>
         </div>
 
         <Card>
@@ -65,7 +67,7 @@ export const AdminLoginPage = () => {
                 leftIcon={<Lock className="w-4 h-4" />}
               />
               <Button type="submit" variant="primary" size="lg" isLoading={loading} className="mt-2">
-                Sign In to Dashboard
+                Sign In to Admin Console
               </Button>
             </form>
             <div className="mt-4 text-[11px] text-[var(--text-muted)] text-center">
@@ -73,37 +75,6 @@ export const AdminLoginPage = () => {
             </div>
           </CardBody>
         </Card>
-      </div>
-    </div>
-  );
-};
-
-export const AdminDashboardPage = () => {
-  const stats = [
-    { label: "Total Inquiries", value: "24", icon: <Mail className="w-5 h-5 text-sky-500" /> },
-    { label: "Active Services", value: SERVICES_DATA.length.toString(), icon: <Code className="w-5 h-5 text-indigo-500" /> },
-    { label: "Projects", value: PROJECTS_DATA.length.toString(), icon: <Briefcase className="w-5 h-5 text-purple-500" /> },
-    { label: "Blog Posts", value: BLOG_POSTS_DATA.length.toString(), icon: <FileText className="w-5 h-5 text-emerald-500" /> },
-    { label: "Job Applications", value: "12", icon: <UserCheck className="w-5 h-5 text-amber-500" /> }
-  ];
-
-  return (
-    <div className="space-y-8">
-      <div>
-        <h1 className="text-2xl font-bold text-[var(--text-primary)]">Dashboard Overview</h1>
-        <p className="text-xs text-[var(--text-muted)] mt-1">Real-time stats and content management status.</p>
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-        {stats.map((s, idx) => (
-          <div key={idx} className="glass-panel p-5 rounded-2xl border border-[var(--border-subtle)] flex items-center gap-4">
-            <div className="p-3 rounded-xl bg-[var(--bg-elevated)]">{s.icon}</div>
-            <div>
-              <div className="text-2xl font-extrabold text-[var(--text-primary)]">{s.value}</div>
-              <div className="text-xs text-[var(--text-muted)] font-semibold">{s.label}</div>
-            </div>
-          </div>
-        ))}
       </div>
     </div>
   );
